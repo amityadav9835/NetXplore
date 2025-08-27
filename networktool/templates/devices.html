@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card p-4">
+  <h3 class="mb-3">🖥️ Device Manager</h3>
+  <form method="post" class="row g-3">
+    {% csrf_token %}
+    <div class="col-md-8">
+      <input type="text" name="ip" class="form-control" placeholder="Enter IP Address" required>
+    </div>
+    <div class="col-md-4">
+      <button class="btn btn-primary w-100">Add Device</button>
+    </div>
+  </form>
+
+  <table class="table table-striped mt-4">
+    <thead class="table-dark">
+      <tr><th>IP</th><th>Hostname</th><th>MAC (if any)</th></tr>
+    </thead>
+    <tbody>
+      {% for d in devices %}
+      <tr>
+        <td>{{ d.ip }}</td>
+        <td>{{ d.hostname }}</td>
+        <td>{{ d.mac|default:"-" }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

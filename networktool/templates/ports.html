@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card p-4">
+  <h3 class="mb-3">🔌 Port Scanner</h3>
+  <form method="post" class="row g-3">
+    {% csrf_token %}
+    <div class="col-md-8">
+      <input type="text" name="ip" class="form-control" placeholder="Enter IP Address" required>
+    </div>
+    <div class="col-md-4">
+      <button class="btn btn-success w-100">Scan</button>
+    </div>
+  </form>
+
+  {% if result %}
+  <h5 class="mt-4">Scan Results for <b>{{ result.ip }}</b></h5>
+  <ul class="list-group mt-2">
+    {% for port in result.open_ports %}
+    <li class="list-group-item">✅ Port {{ port }} open</li>
+    {% empty %}
+    <li class="list-group-item text-danger">No open ports found</li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+</div>
+{% endblock %}

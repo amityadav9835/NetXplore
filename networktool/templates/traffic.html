@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="p-6">
+  <h2 class="text-2xl font-bold mb-4">Real-Time Traffic Analyzer</h2>
+
+  <!-- Input Form -->
+  <form method="get" class="mb-6 flex gap-2">
+    <input type="text" name="ip" placeholder="Enter IP address"
+           value="{{ ip|default:'' }}"
+           class="border p-2 rounded w-1/2" required>
+    <button type="submit"
+            class="bg-blue-500 text-white px-4 py-2 rounded">
+      Analyze
+    </button>
+  </form>
+
+  {% if ip %}
+    <h3 class="text-xl font-semibold mb-2">
+      Results for IP: <span class="text-blue-600">{{ ip }}</span>
+    </h3>
+
+    {% if protocols %}
+      <table class="table-auto border w-full mt-4">
+        <thead>
+          <tr>
+            <th class="border px-4 py-2">Protocol/Port</th>
+            <th class="border px-4 py-2">Packet Count</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for proto, count in protocols.items %}
+          <tr>
+            <td class="border px-4 py-2">{{ proto }}</td>
+            <td class="border px-4 py-2">{{ count }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p class="mt-4 text-gray-600">No traffic detected for this IP in the last scan.</p>
+    {% endif %}
+  {% endif %}
+</div>
+{% endblock %}
